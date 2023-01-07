@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Run",
+            "program": "${workspaceFolder:Garden}/.build/debug/Run",
+            "args": [],
+            "cwd": "${workspaceFolder:Garden}",
+            "preLaunchTask": "swift: Build Debug Run"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release Run",
+            "program": "${workspaceFolder:Garden}/.build/release/Run",
+            "args": [],
+            "cwd": "${workspaceFolder:Garden}",
+            "preLaunchTask": "swift: Build Release Run"
+        }
+    ]
+}
