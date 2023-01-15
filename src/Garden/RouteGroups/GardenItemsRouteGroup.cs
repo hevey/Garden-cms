@@ -15,8 +15,8 @@ public static class GardenItemsRouteGroup
     private static async Task<IResult> GetItems(HttpContext context, GardenService gardenService, string? name)
     {
         if (name is not null) 
-            return Results.Ok(await gardenService.GetAllAsync(name));
+            return TypedResults.Ok(await gardenService.GetAllAsync(name));
             
-        return Results.Ok(await gardenService.GetAllAsync());
+        return TypedResults.Ok(await gardenService.GetAllAsync());
     }
 }

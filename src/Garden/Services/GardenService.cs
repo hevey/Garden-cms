@@ -20,7 +20,7 @@ public class GardenService
     public async Task<List<Item>> GetAllAsync() => await _itemCollection.Find(_ => true).ToListAsync();
     public async Task<List<Item>> GetAllAsync(string name) => await _itemCollection.Find(x => x.Name == name).ToListAsync();
     
-    public async Task<Item?> GetByIdAsync(string id) => await _itemCollection.Find(x => x.Id == id.ToString()).FirstOrDefaultAsync();
+    public async Task<Item?> GetByIdAsync(string id) => await _itemCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
     public async Task<Item?> GetByNameAsync(string name) => await _itemCollection.Find(x => x.Name == name).SortByDescending(x => x.Version).FirstOrDefaultAsync();
 
     public async Task CreateAsync(Item newItem) => await _itemCollection.InsertOneAsync(newItem);
