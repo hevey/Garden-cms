@@ -4,7 +4,8 @@ public static class GardenRouteGroup
 {
     public static RouteGroupBuilder MapGardenRoutes(this RouteGroupBuilder group)
     {
-        group.MapGroup("/items").MapGardenItemRoutes();
+        group.MapGroup("/item").MapGardenItemRoutes();
+        group.MapGroup("/items").MapGardenItemsRoutes();
         
         group.MapGet("/", () => "Welcome to Garden");
         
