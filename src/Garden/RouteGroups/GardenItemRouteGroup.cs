@@ -1,7 +1,6 @@
 using Garden.Models;
 using Garden.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace Garden.RouteGroups;
 
@@ -30,12 +29,20 @@ public static class GardenItemRouteGroup
     
     private static async Task<IResult> PostItem(GardenService gardenService, Item item)
     {
+        item.Version = 1;
+        
         await gardenService.CreateAsync(item);
         return TypedResults.Created($"/{item.Id}", item);
     }
     
     private static async Task<IResult> PutItem(GardenService gardenService, string id, Item item)
     {
+
+        var isIdValid = ObjectId.TryParse(id, out _);
+
+        if (!isIdValid)
+            return TypedResults.BadRequest("id is not valid");
+        
         var result = await gardenService.GetByIdAsync(id);
 
         if (result is null)
@@ -43,7 +50,7 @@ public static class GardenItemRouteGroup
 
         result.Name = item.Name;
         result.Nodes = item.Nodes;
-        result.Version = item.Version;
+        result.Version++;
         
         await gardenService.UpdateAsync(id, result);
         
@@ -52,12 +59,16 @@ public static class GardenItemRouteGroup
     
     private static async Task<IResult> DeleteItem(GardenService gardenService, string id)
     {
+        var isIdValid = ObjectId.TryParse(id, out _);
+
+        if (!isIdValid)
+            return TypedResults.BadRequest("id is not valid");
+        
         var result = await gardenService.GetByIdAsync(id);
 
         if (result is not Item) return TypedResults.NotFound();
         
         await gardenService.RemoveAsync(id);
         return TypedResults.Ok(result);
-
     }
 }
