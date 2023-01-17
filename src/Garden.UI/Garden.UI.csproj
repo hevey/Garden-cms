@@ -12,6 +12,18 @@
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Garden.Shared\Garden.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models" />
+    </ItemGroup>
     
     <Import Project="StaticAssets\TailwindCli.targets" />
 

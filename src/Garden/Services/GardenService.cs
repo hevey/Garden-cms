@@ -1,4 +1,5 @@
 using Garden.Models;
+using Garden.Shared.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 

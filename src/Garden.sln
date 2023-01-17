@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden", "Garden\Garden.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden.UI", "Garden.UI\Garden.UI.csproj", "{7E229FD3-6AA8-404C-AFB2-041F89F0FBAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden.Shared", "Garden.Shared\Garden.Shared.csproj", "{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{7E229FD3-6AA8-404C-AFB2-041F89F0FBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E229FD3-6AA8-404C-AFB2-041F89F0FBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E229FD3-6AA8-404C-AFB2-041F89F0FBAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

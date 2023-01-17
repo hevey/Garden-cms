@@ -1,4 +1,4 @@
-namespace Garden.Models;
+namespace Garden.Shared.Models;
 
 public class MongoStoreDatabaseSettings
 {
