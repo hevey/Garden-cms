@@ -1,6 +1,10 @@
+using System.Text;
 using Garden.Services;
 using Garden.RouteGroups;
 using Garden.Shared.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +14,27 @@ builder.Services.AddScoped<GardenService>();
 
 builder.Services.AddSingleton<TokenService>();
 
-builder.Services.AddAuthentication().AddJwtBearer();
-builder.Services.AddAuthorization();
+builder.Services.AddAuthentication("LocalAuthIssuer")
+    .AddJwtBearer()
+    .AddJwtBearer("LocalAuthIssuer", options =>
+    {
+        options.TokenValidationParameters.ValidIssuer = "local-auth";
+        options.TokenValidationParameters.ValidateIssuerSigningKey = true;
+        options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            Environment.GetEnvironmentVariable("JWT_Secret") ??
+            throw new InvalidOperationException("Missing JWT_Secret environment variable")));
+        options.TokenValidationParameters.ValidateIssuer = true;
+        options.TokenValidationParameters.ValidateAudience = true;
+        options.TokenValidationParameters.ValidateLifetime = true;
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .AddAuthenticationSchemes("Bearer", "LocalAuthIssuer")
+        .Build();
+});
 
 builder.Services.AddIdentityCore<ApplicationUser>().AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
     builder.Configuration.GetValue<string>("GardenStoreDatabase:ConnectionString"),
