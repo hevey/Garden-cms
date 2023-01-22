@@ -6,6 +6,7 @@ public static class GardenRouteGroup
     {
         group.MapGroup("/item").MapGardenItemRoutes();
         group.MapGroup("/items").MapGardenItemsRoutes();
+        group.MapGroup("/identity").MapGardenIdentityRoutes();
         
         group.MapGet("/", () => "Welcome to Garden");
         

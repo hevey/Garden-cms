@@ -8,7 +8,7 @@ public static class GardenItemRouteGroup
 {
     public static RouteGroupBuilder MapGardenItemRoutes(this RouteGroupBuilder group)
     {
-        group.MapGet("/", GetItem);
+        group.MapGet("/", GetItem).RequireAuthorization();
         group.MapPost("/", PostItem);
         group.MapPut("/{id}", PutItem);
         group.MapDelete("/{id}", DeleteItem);
@@ -20,11 +20,31 @@ public static class GardenItemRouteGroup
     private static async Task<IResult> GetItem(HttpContext context, GardenService gardenService, string? id, string? name)
     {
         if (id is not null)
-            return TypedResults.Ok(await gardenService.GetByIdAsync(id));
-        if (name is not null)
-            return TypedResults.Ok(await gardenService.GetByNameAsync(name));
+        {
+            var isIdValid = gardenService.CheckIdValid(id);
 
-        return Results.BadRequest("Unable to return item. Provide either a 'id' or 'name' parameter");
+            if (!isIdValid)
+                return TypedResults.BadRequest($"id is not valid");
+            
+            var result = await gardenService.GetByIdAsync(id);
+
+            if (result is null)
+                return TypedResults.BadRequest($"no item with id: {id} found");
+            
+            return TypedResults.Ok(await gardenService.GetByIdAsync(id));
+        }
+
+        if (name is not null)
+        {
+            var result = await gardenService.GetByNameAsync(name);
+
+            if (result is null)
+                return TypedResults.BadRequest($"no item with name: {name} found");
+            
+            return TypedResults.Ok(await gardenService.GetByNameAsync(name));
+        }
+        
+        return Results.BadRequest("Unable to return item. Provide either an 'id' or 'name' parameter");
     }
     
     private static async Task<IResult> PostItem(GardenService gardenService, Item item)
