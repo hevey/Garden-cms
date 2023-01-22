@@ -8,7 +8,7 @@ public static class GardenItemRouteGroup
 {
     public static RouteGroupBuilder MapGardenItemRoutes(this RouteGroupBuilder group)
     {
-        group.MapGet("/", GetItem).RequireAuthorization();
+        group.MapGet("/", GetItem);
         group.MapPost("/", PostItem);
         group.MapPut("/{id}", PutItem);
         group.MapDelete("/{id}", DeleteItem);
