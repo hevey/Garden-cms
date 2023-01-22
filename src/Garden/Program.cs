@@ -2,7 +2,6 @@ using System.Text;
 using Garden.Services;
 using Garden.RouteGroups;
 using Garden.Shared.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -13,6 +12,15 @@ builder.Services.Configure<MongoStoreDatabaseSettings>("GardenStore", builder.Co
 builder.Services.AddScoped<GardenService>();
 
 builder.Services.AddSingleton<TokenService>();
+
+
+builder.Services.AddIdentityCore<ApplicationUser>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+}).AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
+    builder.Configuration.GetValue<string>("GardenStoreDatabase:ConnectionString"),
+    builder.Configuration.GetValue<string>("GardenStoreDatabase:DatabaseName")
+);
 
 builder.Services.AddAuthentication("LocalAuthIssuer")
     .AddJwtBearer()
@@ -35,12 +43,6 @@ builder.Services.AddAuthorization(options =>
         .AddAuthenticationSchemes("Bearer", "LocalAuthIssuer")
         .Build();
 });
-
-builder.Services.AddIdentityCore<ApplicationUser>().AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(
-    builder.Configuration.GetValue<string>("GardenStoreDatabase:ConnectionString"),
-    builder.Configuration.GetValue<string>("GardenStoreDatabase:DatabaseName")
-);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
 {
