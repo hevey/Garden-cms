@@ -19,16 +19,36 @@ builder.Services.AddIdentityCore<ApplicationUser>().AddMongoDbStores<Application
 );
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(setup => 
+builder.Services.AddSwaggerGen(setup =>
+{
     setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Description = "JWT Authorization header using the Bearer scheme.",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer"
-    })
-);
+    });
+
+    setup.AddSecurityRequirement(
+        new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Name = "Bearer",
+                    In = ParameterLocation.Header,
+                    Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme
+                    }
+                },
+                new List<string>()
+            }
+        }
+    );
+});
 
 var app = builder.Build();
 
