@@ -85,4 +85,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapGroup("/garden").MapGardenRoutes().WithOpenApi();
 
+app.UseStaticFiles();
+app.MapFallbackToFile("index.html");
+
 app.Run();
