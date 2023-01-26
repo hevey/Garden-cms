@@ -8,7 +8,6 @@
     
     <button>Login</button>
   </Form>
-  <p>Token: {{ store.token }}</p>
 </template>
 
 <script setup lang="ts">

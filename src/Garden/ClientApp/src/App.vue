@@ -1,21 +1,30 @@
+<template>
+  <!--  <div>-->
+  <!--    <a href="https://vitejs.dev" target="_blank">-->
+  <!--      <img src="/vite.svg" class="logo" alt="Vite logo" />-->
+  <!--    </a>-->
+  <!--    <a href="https://vuejs.org/" target="_blank">-->
+  <!--      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />-->
+  <!--    </a>-->
+  <!--  </div>-->
+  <!--  <HelloWorld msg="Vite + Vue" />-->
+  <LoginForm />
+  <p>token: {{ token }}</p>
+</template>
+
 <script setup lang="ts">
 import LoginForm from "./components/LoginForm.vue";
+import { useGardenStore } from "./stores/garden";
+import {ref, watch} from "vue";
+
+const token = ref<string>("")
+const store = useGardenStore()
+
+watch(() => store.token, (t) => {
+  token.value = t
+})
 
 </script>
-
-<template>
-<!--  <div>-->
-<!--    <a href="https://vitejs.dev" target="_blank">-->
-<!--      <img src="/vite.svg" class="logo" alt="Vite logo" />-->
-<!--    </a>-->
-<!--    <a href="https://vuejs.org/" target="_blank">-->
-<!--      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />-->
-<!--    </a>-->
-<!--  </div>-->
-<!--  <HelloWorld msg="Vite + Vue" />-->
-  
-  <LoginForm />
-</template>
 
 <style scoped>
 .logo {
