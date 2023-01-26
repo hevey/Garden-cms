@@ -9,12 +9,14 @@ namespace Garden.Services;
 
 public class TokenService
 {
-    public string GenerateToken(ApplicationUser user)
+    public string? GenerateToken(ApplicationUser user)
     {
         var header = new JwtHeader(
             new SigningCredentials(new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Secret") ?? throw new InvalidOperationException("Missing JWT_Secret environment variable"))), 
                 SecurityAlgorithms.HmacSha256));
+
+        if (user.Email is null || user.UserName is null) return null;
         
         var claims = new List<Claim>
         {
@@ -34,5 +36,6 @@ public class TokenService
         var token = new JwtSecurityToken(header, payload);
  
         return new JwtSecurityTokenHandler().WriteToken(token);
+
     }
 }

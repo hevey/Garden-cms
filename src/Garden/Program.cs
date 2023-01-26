@@ -75,12 +75,22 @@ builder.Services.AddSwaggerGen(setup =>
     );
 });
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.UseCors(policyBuilder =>
+    {
+        policyBuilder
+            .WithOrigins("https://localhost:5173")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
 }
 
 app.MapGroup("/garden").MapGardenRoutes().WithOpenApi();

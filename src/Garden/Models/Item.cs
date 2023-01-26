@@ -19,9 +19,9 @@ public record Item
     public string? Id { get; set; }
 
     // [BsonElement("Name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    public int Version { get; set; }
+    public int? Version { get; set; }
 
-    public List<Node> Nodes { get; set; }
+    public List<Node>? Nodes { get; set; }
 }
