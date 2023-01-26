@@ -1,6 +1,6 @@
 <template>
   <Form @submit="login">
-    <Field type="email" name="email" placeholder="email" :rules="validateEmails" />
+    <Field type="email" name="email" placeholder="email" :rules="validateEmail" />
     <ErrorMessage name="email"/>
     
     <Field type="password" name="password" placeholder="password" :rules="validatePassword" />
@@ -34,7 +34,7 @@ function login(values: any) {
   })
 }
 
-function validateEmails(value: any) {
+function validateEmail(value: any) {
   if(!value) {
     return 'Email is required';
   }
