@@ -11,7 +11,8 @@
   "dependencies": {
     "vue": "^3.2.45",
     "axios": "^1.2.4",
-    "vee-validate": "^4.7.3"
+    "vee-validate": "^4.7.3",
+    "pinia": "^2.0.29"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",

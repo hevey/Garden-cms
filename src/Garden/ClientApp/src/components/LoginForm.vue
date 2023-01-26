@@ -8,15 +8,16 @@
     
     <button>Login</button>
   </Form>
-  <p>{{returnValue}}</p>
+  <p>Token: {{ store.token }}</p>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import axios from "axios";
 import { Form, Field, ErrorMessage } from "vee-validate";
 
-const returnValue = ref("")
+import {useGardenStore} from "../stores/garden";
+
+const store = useGardenStore()
 
 function login(values: any) {
   axios.post(
@@ -27,10 +28,7 @@ function login(values: any) {
       }
   ).then((response) => {
     if(response.status == 200) {
-      returnValue.value = response.data 
-    }
-    else {
-      returnValue.value = response.statusText
+      store.token = response.data 
     }
   }).catch((error) => {
     console.log(error)
