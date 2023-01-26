@@ -23,13 +23,7 @@ function login(values: any) {
       'https://localhost:7161/garden/identity/login',
       {
         'email': values.email,
-        'password': values.password,
-        'name': 'Glenn'
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        'password': values.password
       }
   ).then((response) => {
     if(response.status == 200) {

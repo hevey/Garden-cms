@@ -23,7 +23,7 @@ public static class GardenIdentityRouteGroup
         TokenService tokenService, User user)
     {
 
-        var result = await userManager.FindByNameAsync(user.Name);
+        var result = await userManager.FindByEmailAsync(user.Email);
 
         if (result is null)
         {
@@ -46,7 +46,6 @@ public static class GardenIdentityRouteGroup
     {
         ApplicationUser applicationUser = new ApplicationUser
         {
-            UserName = user.Name,
             Email = user.Email
         };
     
