@@ -13,11 +13,19 @@
 <script setup lang="ts">
 import axios from "axios";
 import { Form, Field, ErrorMessage } from "vee-validate";
+import { useRouter } from "vue-router";
 
-import {useGardenStore} from "../stores/garden";
+import { useGardenStore } from "../stores/garden";
+import { computed } from "vue";
 
 const store = useGardenStore()
+const router = useRouter()
 
+let returnPath = computed(() => {
+  let back = router.options.history.state.back
+  return back ? back : '/'
+})
+    
 function login(values: any) {
   axios.post(
       'https://localhost:7161/garden/identity/login',
@@ -28,6 +36,9 @@ function login(values: any) {
   ).then((response) => {
     if(response.status == 200) {
       store.token = response.data 
+      store.isAuthenticated = true
+      
+      router.push(returnPath.value.toString())
     }
   }).catch((error) => {
     console.log(error)

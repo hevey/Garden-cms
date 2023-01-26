@@ -1,9 +1,8 @@
 <template>
-  <LoginForm />
+<router-view />
 </template>
 
 <script setup lang="ts">
-import LoginForm from "./components/LoginForm.vue";
 import { useGardenStore } from "./stores/garden";
 import { ref, watch } from "vue";
 
