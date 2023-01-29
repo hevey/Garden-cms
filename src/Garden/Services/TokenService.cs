@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -43,9 +44,18 @@ public class TokenService
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var validationParameters = GetValidationParameters();
-        SecurityToken validatedToken;
-        IPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
-        return true;
+        SecurityToken validatedToken; //TODO: add revocation list check. This will require a revocation list to be created.
+        try
+        {
+            IPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+            return true;
+        }
+        catch (SecurityTokenExpiredException exception)
+        {
+            return false;
+        }
+        
+        
     }
     
     private TokenValidationParameters GetValidationParameters()
@@ -57,7 +67,7 @@ public class TokenService
             ValidateIssuer = true, 
             ValidIssuer = "local-auth",
             ValidAudiences = new List<string>{ "http://localhost:17635", "https://localhost:44389", "http://localhost:5104", "https://localhost:7161" },
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Secret") ?? throw new InvalidOperationException("Missing JWT_Secret environment variable"))) // The same key as the one that generate the token
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Secret") ?? throw new InvalidOperationException("Missing JWT_Secret environment variable")))
         };
     }
 }
