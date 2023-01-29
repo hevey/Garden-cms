@@ -1,3 +1,4 @@
+<template></template>
 <script setup lang="ts">
 import {useGardenStore} from "../stores/garden";
 import {useRouter} from "vue-router";

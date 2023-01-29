@@ -1,8 +1,10 @@
 <template>
-  <h1 class="text-4xl">Welcome to Garden</h1>
-  <p>You have logged in successfully</p>
-  
-  <button @click="Logout">Logout</button>
+  <div class="bg-teal-500">
+    <h1 class="text-4xl">Welcome to Garden</h1>
+    <p>You have logged in successfully</p>
+
+    <button @click="Logout">Logout</button>
+  </div>
 </template>
 
 <script setup lang="ts">
