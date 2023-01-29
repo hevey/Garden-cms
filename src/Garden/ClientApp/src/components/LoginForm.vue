@@ -1,15 +1,18 @@
 <template>
-  <div class="grid grid-cols-1 place-content-center mx-auto w-64">
-    <Form class="grid grid-cols-1 grid-rows-6 bg-teal-500 h-96 mx-auto" @submit="login">
-      <Field class="bg-transparent test-white placeholder-white row-start-1" type="email" name="email" placeholder="email" :rules="validateEmail" />
-      <ErrorMessage class="row-start-2" name="email"/>
+  <div class="h-full w-full flex items-center justify-between bg-teal-500">
+      <Form class="bg-white w-2/5 mx-auto h-96 flex flex-col pt-5" @submit="login">
+        <div class="grid grid-rows-7 h-full">
+          <h1 class="w-11/12 text-5xl py-3 px-5 mx-auto text-base row-start-1 h-12">Garden</h1>
+          <Field class="w-11/12 row-start-2 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="email" name="email" placeholder="email" :rules="validateEmail" />
+          <ErrorMessage class="w-11/12 text-red-500 row-start-5 px-5 mx-auto text-base" name="email"/>
 
-      <Field class="bg-transparent text-white placeholder-white row-start-3" type="password" name="password" placeholder="password" :rules="validatePassword" />
-      <ErrorMessage name="password row-start-4" />
+          <Field class="w-11/12 row-start-3 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="password" name="password" placeholder="password" :rules="validatePassword" />
+          <ErrorMessage class="w-11/12 text-red-500 row-start-6 px-5 mx-auto text-base" name="password" />
 
-      <button class="row-start-5">Login</button>
-      <p class="row-start-6">{{errorMessage}}</p>
-    </Form>
+          <button class="w-11/12 row-start-4 h-12 rounded-md border border-primary px-5 mx-auto bg-blue-500 text-base text-white cursor-pointer hover:bg-opacity-90 transition">Login</button>
+          <p class="w-11/12 row-start-7 text-red-500 px-5 mx-auto text-base">{{errorMessage}}</p>
+        </div>
+      </Form>
   </div>
 </template>
 
