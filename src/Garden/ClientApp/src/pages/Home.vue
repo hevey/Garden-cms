@@ -8,13 +8,17 @@
 <script setup lang="ts">
 import {useGardenStore} from "../stores/garden";
 import {useRouter} from "vue-router";
+import {onMounted} from "vue";
 
 const store = useGardenStore()
 const router = useRouter()
 
-if(!store.isAuthenticated) {
-  router.push('/login')
-}
+onMounted(() => {
+
+  if(!store.getIsAuthenticated()) {
+    router.push('/login')
+  }
+})
 
 function Logout() {
   router.push('/logout')
