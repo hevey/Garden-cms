@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using Garden.Shared.Models;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Bson;
 
 namespace Garden.Services;
 
@@ -37,5 +37,27 @@ public class TokenService
  
         return new JwtSecurityTokenHandler().WriteToken(token);
 
+    }
+
+    public bool Validate(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var validationParameters = GetValidationParameters();
+        SecurityToken validatedToken;
+        IPrincipal principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
+        return true;
+    }
+    
+    private TokenValidationParameters GetValidationParameters()
+    {
+        return new TokenValidationParameters()
+        {
+            ValidateLifetime = true,
+            ValidateAudience = true,
+            ValidateIssuer = true, 
+            ValidIssuer = "local-auth",
+            ValidAudiences = new List<string>{ "http://localhost:17635", "https://localhost:44389", "http://localhost:5104", "https://localhost:7161" },
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_Secret") ?? throw new InvalidOperationException("Missing JWT_Secret environment variable"))) // The same key as the one that generate the token
+        };
     }
 }

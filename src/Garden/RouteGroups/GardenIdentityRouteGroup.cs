@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
+using Garden.Models;
 using Garden.Services;
 using Garden.Shared.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -15,8 +16,17 @@ public static class GardenIdentityRouteGroup
     {
         group.MapPost("/login", SignIn);
         group.MapPost("/create", PostIdentity).RequireAuthorization();
+        group.MapPost("/validate", ValidateToken);
 
         return group;
+    }
+
+    private static async Task<IResult> ValidateToken(TokenService tokenService, TokenDTO tokenDto)
+    {
+        if (!tokenService.Validate(tokenDto.Token))
+            return TypedResults.BadRequest("token is not valid");
+        
+        return TypedResults.Ok();
     }
 
     private static async Task<IResult> SignIn(UserManager<ApplicationUser> userManager, GardenService gardenService,
