@@ -4,10 +4,10 @@
         <div class="grid grid-rows-7 h-full">
           <h1 class="w-11/12 text-5xl py-3 px-5 mx-auto text-base row-start-1 h-12">Garden</h1>
           <Field class="w-11/12 row-start-2 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="email" name="email" placeholder="email" :rules="validateEmail" />
-          <ErrorMessage class="w-11/12 text-red-500 row-start-5 px-5 mx-auto text-base" name="email"/>
+          <ErrorMessage class="w-11/12 text-red-500 row-start-5 px-5 h-fit mx-auto text-base" name="email"/>
 
           <Field class="w-11/12 row-start-3 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="password" name="password" placeholder="password" :rules="validatePassword" />
-          <ErrorMessage class="w-11/12 text-red-500 row-start-6 px-5 mx-auto text-base" name="password" />
+          <ErrorMessage class="w-11/12 text-red-500 row-start-6 px-5 h-fit mx-auto text-base" name="password" />
 
           <button class="w-11/12 row-start-4 h-12 rounded-md border border-primary px-5 mx-auto bg-blue-500 text-base text-white cursor-pointer hover:bg-opacity-90 transition">Login</button>
           <p class="w-11/12 row-start-7 text-red-500 px-5 mx-auto text-base">{{errorMessage}}</p>

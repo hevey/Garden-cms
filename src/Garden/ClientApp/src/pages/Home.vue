@@ -1,9 +1,8 @@
 <template>
-  <div class="bg-teal-500">
-    <h1 class="text-4xl">Welcome to Garden</h1>
+  <div>
+    <h2 class="text-xl">Welcome to Garden</h2>
     <p>You have logged in successfully</p>
-
-    <button @click="Logout">Logout</button>
+    
   </div>
 </template>
 
@@ -17,7 +16,7 @@ const store = useGardenStore()
 const router = useRouter()
 
 onMounted(() => {
-  if(store.getIsAuthenticated()) {
+  if(store.getIsAuthenticated() && store.getToken() !== "") {
     axios.post('https://localhost:7161/garden/identity/validate',
         {
           'token': store.getToken()
@@ -36,10 +35,6 @@ onMounted(() => {
     router.push('/login')
   }
 })
-
-function Logout() {
-  router.push('/logout')
-}
 
 </script>
 
