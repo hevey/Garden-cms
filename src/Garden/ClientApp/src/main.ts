@@ -7,6 +7,7 @@ import Home from "./pages/Home.vue";
 import App from "./App.vue";
 import Login from "./pages/Login.vue";
 import Logout from "./pages/Logout.vue";
+import Types from "./pages/Types.vue";
 
 
 const pinia = createPinia()
@@ -16,8 +17,9 @@ const app = createApp(App)
 
 const routes = [
     { path: '/', component: Home },
-    { path: '/login', component: Login},
-    { path: '/logout', component: Logout}
+    { path: '/login', component: Login },
+    { path: '/logout', component: Logout },
+    { path: '/types', component: Types }
 ]
 
 const router = createRouter({

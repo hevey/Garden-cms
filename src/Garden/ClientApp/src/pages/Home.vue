@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <div class="container">
     <h2 class="text-xl">Welcome to Garden</h2>
     <p>You have logged in successfully</p>
-    
   </div>
 </template>
 
