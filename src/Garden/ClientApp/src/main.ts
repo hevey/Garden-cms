@@ -7,7 +7,7 @@ import Home from "./pages/Home.vue";
 import App from "./App.vue";
 import Login from "./pages/Login.vue";
 import Logout from "./pages/Logout.vue";
-import Types from "./pages/Types.vue";
+import Types from "./pages/ItemTypes.vue";
 
 
 const pinia = createPinia()
