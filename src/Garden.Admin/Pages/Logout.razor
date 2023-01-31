@@ -1,0 +1,15 @@
+@page "/logout"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@inject NavigationManager Navigation
+@inject ProtectedLocalStorage ProtectedLocalStorage
+
+@code {
+    protected override void OnInitialized()
+    {
+        ProtectedLocalStorage.DeleteAsync("isAuthenticated");
+        ProtectedLocalStorage.DeleteAsync("token");
+        
+        Navigation.NavigateTo("/");
+    }
+}

@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden", "Garden\Garden.csproj", "{48785954-F763-426B-AC90-AF19E1C8213E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden.Shared", "Garden.Shared\Garden.Shared.csproj", "{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden.Admin", "Garden.Admin\Garden.Admin.csproj", "{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +21,9 @@ Global
 		{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE0C8109-CFAB-4A24-B1AB-1B6B16724F48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

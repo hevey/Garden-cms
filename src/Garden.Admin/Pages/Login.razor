@@ -1,0 +1,56 @@
+@page "/login"
+@using Garden.Shared.Models
+@using System.Text.Json
+@using System.Text
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+
+@inject IHttpClientFactory ClientFactory
+@inject ProtectedLocalStorage ProtectedLocalStorage
+@inject NavigationManager Navigation
+
+<div class="h-screen w-screen">
+    <div class="h-full w-full flex items-center justify-between bg-teal-500">
+        <EditForm Model="@user" OnValidSubmit="@SubmitLogin" class="bg-white w-2/5 mx-auto h-96 flex flex-col pt-5">
+            <div class="grid grid-rows-4 h-full">
+                <h1 class="w-11/12 text-4xl py-3 px-5 mx-auto text-base row-start-1 h-12">Garden</h1>
+                <InputText class="w-11/12 row-start-2 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="email" @bind-Value="user.Email" placeholder="email" />
+                <InputText class="w-11/12 row-start-3 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="password" @bind-Value="user.Password" placeholder="password" />
+                
+                <button class="w-11/12 row-start-4 h-12 rounded-md border border-primary px-5 mx-auto bg-blue-500 text-base text-white cursor-pointer hover:bg-opacity-90 transition" type="submit">Login</button>
+            </div>
+        </EditForm>
+        
+        @* TODO: need to put error messages in for validation *@
+        @*         <ErrorMessage class="w-11/12 text-red-500 row-start-5 px-5 h-fit mx-auto text-base" name="email"/> *@
+        @*         <ErrorMessage class="w-11/12 text-red-500 row-start-6 px-5 h-fit mx-auto text-base" name="password" /> *@
+        @*         <p class="w-11/12 row-start-7 text-red-500 px-5 mx-auto text-base">{{errorMessage}}</p> *@
+    </div>    
+</div>
+
+@code {
+    private User user = new();
+
+    private async Task SubmitLogin()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7161/garden/identity/login");
+        
+        request.Content = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
+
+        var client = ClientFactory.CreateClient();
+
+        var response = await client.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await using var responseStream = await response.Content.ReadAsStreamAsync();
+            
+            var token = await JsonSerializer.DeserializeAsync<string>(responseStream);
+            Console.WriteLine(token);
+            if (token != null) await ProtectedLocalStorage.SetAsync("token", token);
+            await ProtectedLocalStorage.SetAsync("isAuthenticated", true);
+            
+            Navigation.NavigateTo("/");
+        }
+        
+    }
+}
