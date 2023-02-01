@@ -26,6 +26,14 @@
 @code {
     private User user = new();
 
+    protected override async Task<Task> OnInitializedAsync()
+    {
+        var loggedIn = await TokenService.CheckTokenAsync();
+        if(loggedIn) NavigationManager.NavigateTo("/");
+        
+        return base.OnInitializedAsync();
+    }
+
     private async Task SubmitLogin()
     {
         var loggedIn = await TokenService.Login(user);
