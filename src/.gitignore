@@ -590,3 +590,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+/Garden.Admin/wwwroot/css/app.css
