@@ -5,11 +5,14 @@
 @inject ProtectedLocalStorage ProtectedLocalStorage
 
 @code {
-    protected override void OnInitialized()
+
+    protected override async Task<Task> OnInitializedAsync()
     {
-        ProtectedLocalStorage.DeleteAsync("isAuthenticated");
-        ProtectedLocalStorage.DeleteAsync("token");
+        await ProtectedLocalStorage.DeleteAsync("isAuthenticated");
+        await ProtectedLocalStorage.DeleteAsync("token");
         
         Navigation.NavigateTo("/");
+        
+        return base.OnInitializedAsync();
     }
 }

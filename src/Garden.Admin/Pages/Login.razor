@@ -1,12 +1,8 @@
 @page "/login"
 @using Garden.Shared.Models
-@using System.Text.Json
-@using System.Text
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 
-@inject IHttpClientFactory ClientFactory
-@inject ProtectedLocalStorage ProtectedLocalStorage
-@inject NavigationManager Navigation
+@inject TokenService TokenService
+@inject NavigationManager NavigationManager
 
 <div class="h-screen w-screen">
     <div class="h-full w-full flex items-center justify-between bg-teal-500">
@@ -32,25 +28,9 @@
 
     private async Task SubmitLogin()
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7161/garden/identity/login");
+        var loggedIn = await TokenService.Login(user);
+        if(loggedIn) NavigationManager.NavigateTo("/");
         
-        request.Content = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
-
-        var client = ClientFactory.CreateClient();
-
-        var response = await client.SendAsync(request);
-
-        if (response.IsSuccessStatusCode)
-        {
-            await using var responseStream = await response.Content.ReadAsStreamAsync();
-            
-            var token = await JsonSerializer.DeserializeAsync<string>(responseStream);
-            Console.WriteLine(token);
-            if (token != null) await ProtectedLocalStorage.SetAsync("token", token);
-            await ProtectedLocalStorage.SetAsync("isAuthenticated", true);
-            
-            Navigation.NavigateTo("/");
-        }
-        
+        //TODO: need to put error messages in for validation
     }
 }

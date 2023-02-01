@@ -1,37 +1,28 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@attribute [Authorize]
 
-@inject ProtectedLocalStorage ProtectedLocalStorage
 @inject NavigationManager Navigation
+@inject TokenService TokenService
 
 <PageTitle>Garden</PageTitle>
 
-<h1 class="text-green-900 text-7xl">Hello, Garden</h1>
+<NavMenu />
 
 <p>Welcome</p>
-<p>You have logged in successfully</p>
-
-<button class="nav-btn-primary text-teal-600" @onclick="Logout">Logout</button>
 
 @code {
-    protected override async void OnInitialized()
-    {
-        var isAuthenticated = await ProtectedLocalStorage.GetAsync<bool>("isAuthenticated");
 
-        if (isAuthenticated is not { Success: true, Value: true })
-        {
-            Navigation.NavigateTo("/login");
-        }
-        
-        var tokenResult = await ProtectedLocalStorage.GetAsync<string>("token");
-        var token = tokenResult.Success ? tokenResult.Value : null;
-        
-        if(token is null) Navigation.NavigateTo("/login");
-    }
-    
     private void Logout()
     {
         Navigation.NavigateTo("/logout");
     }
+
+    protected override async Task<Task> OnInitializedAsync()
+    {
+        var tokenCheck = await TokenService.CheckTokenAsync();
+        if(!tokenCheck) Navigation.NavigateTo("/login", true);
+        return base.OnInitializedAsync();
+    }
+
 }
 
