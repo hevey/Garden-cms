@@ -36,12 +36,16 @@ public class TokenService
         var client = _httpClientFactory.CreateClient();
 
         var response = await client.SendAsync(request);
-        if (!response.IsSuccessStatusCode) return false;
-        
         await using var responseStream = await response.Content.ReadAsStreamAsync();
-            
-        var token = await JsonSerializer.DeserializeAsync<string>(responseStream);
-        if (token != null) await _protectedLocalStorage.SetAsync("token", token);
+        
+        var content = await JsonSerializer.DeserializeAsync<string>(responseStream);
+
+        if (!response.IsSuccessStatusCode)
+            throw new HttpRequestException(content);
+
+        if (content != null) 
+            await _protectedLocalStorage.SetAsync("token", content);
+        
         await _protectedLocalStorage.SetAsync("isAuthenticated", true);
 
         return true;

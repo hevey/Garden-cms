@@ -6,25 +6,27 @@
 
 <div class="h-screen w-screen">
     <div class="h-full w-full flex items-center justify-between bg-teal-500">
-        <EditForm Model="@user" OnValidSubmit="@SubmitLogin" class="bg-white w-2/5 mx-auto h-96 flex flex-col pt-5">
-            <div class="grid grid-rows-4 h-full">
-                <h1 class="w-11/12 text-4xl py-3 px-5 mx-auto text-base row-start-1 h-12">Garden</h1>
-                <InputText class="w-11/12 row-start-2 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="email" @bind-Value="user.Email" placeholder="email" />
-                <InputText class="w-11/12 row-start-3 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="password" @bind-Value="user.Password" placeholder="password" />
-                
+        <EditForm Model="@_user" OnValidSubmit="@SubmitLogin" class="bg-white w-2/5 mx-auto h-96 flex flex-col pt-5">
+                <DataAnnotationsValidator />
+            <div class="grid grid-rows-5 h-full">
+                <h1 class="w-11/12 text-4xl py-3 px-5 mx-auto row-start-1 h-12">Garden</h1>
+                <InputText class="w-11/12 row-start-2 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="email" Value="@_user.Email" placeholder="email" ValueChanged="EmailChanged" ValueExpression="() => _user.Email"/>
+                <InputText class="w-11/12 row-start-3 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="password" Value="@_user.Password" placeholder="password" ValueChanged="PasswordChanged" ValueExpression="() => _user.Password"/>
+
                 <button class="w-11/12 row-start-4 h-12 rounded-md border border-primary px-5 mx-auto bg-blue-500 text-base text-white cursor-pointer hover:bg-opacity-90 transition" type="submit">Login</button>
+                
+                <ValidationSummary class="w-11/12 text-red-500 row-start-5 px-5 mx-auto text-base h-1"></ValidationSummary>
+                <span class="w-11/12 text-red-500 row-start-5 px-5 mx-auto text-base h-1 @_hiddenCss">@_errorMessage</span>
             </div>
         </EditForm>
-        
-        @* TODO: need to put error messages in for validation *@
-        @*         <ErrorMessage class="w-11/12 text-red-500 row-start-5 px-5 h-fit mx-auto text-base" name="email"/> *@
-        @*         <ErrorMessage class="w-11/12 text-red-500 row-start-6 px-5 h-fit mx-auto text-base" name="password" /> *@
-        @*         <p class="w-11/12 row-start-7 text-red-500 px-5 mx-auto text-base">{{errorMessage}}</p> *@
     </div>    
 </div>
 
 @code {
-    private User user = new();
+    private User _user = new();
+
+    private string _errorMessage = string.Empty;
+    private string _hiddenCss = "hidden";
 
     protected override async Task<Task> OnInitializedAsync()
     {
@@ -36,9 +38,34 @@
 
     private async Task SubmitLogin()
     {
-        var loggedIn = await TokenService.Login(user);
-        if(loggedIn) NavigationManager.NavigateTo("/");
-        
-        //TODO: need to put error messages in for validation
+        _errorMessage = "";
+        _hiddenCss = "hidden";
+        try
+        {
+            var loggedIn = await TokenService.Login(_user);
+            if(loggedIn) NavigationManager.NavigateTo("/");
+        }
+        catch (HttpRequestException e)
+        {
+            _errorMessage = e.Message;
+            _hiddenCss = "";
+        }
     }
+
+    private void PasswordChanged(string value)
+    {
+        _errorMessage = "";
+        _hiddenCss = "hidden";
+
+        _user.Password = value;
+    }
+
+    private void EmailChanged(string value)
+    {
+        _errorMessage = "";
+        _hiddenCss = "hidden";
+
+        _user.Email = value;
+    }
+
 }
