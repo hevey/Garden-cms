@@ -7,7 +7,7 @@
 <div class="h-screen w-screen">
     <div class="h-full w-full flex items-center justify-between bg-teal-500">
         <EditForm Model="@_user" OnValidSubmit="@SubmitLogin" class="bg-white w-2/5 mx-auto h-96 flex flex-col pt-5">
-                <DataAnnotationsValidator />
+            <DataAnnotationsValidator />
             <div class="grid grid-rows-5 h-full">
                 <h1 class="w-11/12 text-4xl py-3 px-5 mx-auto row-start-1 h-12">Garden</h1>
                 <InputText class="w-11/12 row-start-2 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500" type="email" Value="@_user.Email" placeholder="email" ValueChanged="EmailChanged" ValueExpression="() => _user.Email"/>
