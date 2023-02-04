@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using System.Text;
 using System.Text.Json;
 using Garden.Shared.Models;
@@ -26,6 +27,18 @@ public class TokenService
         var token = tokenResult.Success ? tokenResult.Value : null;
         
         return token is not null;
+    }
+
+    public async Task<string> GetToken()
+    {
+        var isAuthenticated = await _protectedLocalStorage.GetAsync<bool>("isAuthenticated");
+
+        if (isAuthenticated is not { Success: true, Value: true }) throw new AuthenticationException("Not Authenticated");
+        
+        var tokenResult = await _protectedLocalStorage.GetAsync<string>("token");
+        var token = tokenResult.Success ? tokenResult.Value : throw new AuthenticationException("No token found");
+
+        return token!;
     }
 
     public async Task<bool> Login(User user)

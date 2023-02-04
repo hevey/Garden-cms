@@ -1,14 +1,15 @@
 ﻿@page "/"
-@attribute [Authorize]
 
 @inject NavigationManager Navigation
 @inject TokenService TokenService
 
-<PageTitle>Garden</PageTitle>
+<PageTitle>Garden - Home</PageTitle>
 
 <NavMenu />
 
-<p>Welcome</p>
+<div class="max-w-5xl mx-auto">
+    <p>Welcome</p>
+</div>
 
 @code {
 

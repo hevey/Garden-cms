@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
-using Garden.Models;
 using Garden.Services;
 using Garden.Shared.Models;
 using Microsoft.AspNetCore.Http.HttpResults;

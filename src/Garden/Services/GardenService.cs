@@ -1,4 +1,3 @@
-using Garden.Models;
 using Garden.Shared.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
@@ -23,6 +22,16 @@ public class GardenService
     public async Task<List<Item>> GetAllAsync() => await _itemCollection.Find(_ => true).ToListAsync();
     public async Task<List<Item>> GetAllAsync(string name) => await _itemCollection.Find(x => x.Name == name).ToListAsync();
     
+    public async Task<List<Item>> GetAllAsync(bool latest)
+    {
+        var result = await _itemCollection.FindAsync(_ => true);
+        IEnumerable<Item?> items = result.ToEnumerable();
+
+        items = items.GroupBy(i => i?.Name).Select(i => i.MaxBy(x => x?.Version));
+        
+        return items.ToList()!;
+    }
+
     public async Task<Item?> GetByIdAsync(string id)
     {
         return await _itemCollection.Find(x => x.Id == id).FirstOrDefaultAsync();

@@ -1,4 +1,3 @@
-using Garden.Models;
 using Garden.Services;
 
 namespace Garden.RouteGroups;
@@ -8,15 +7,20 @@ public static class GardenItemsRouteGroup
     public static RouteGroupBuilder MapGardenItemsRoutes(this RouteGroupBuilder group)
     {
         group.MapGet("/", GetItems);
+        group.MapGet("/latest", GetLatestItems);
 
         return group;
     }
 
+    private static async Task<IResult> GetLatestItems(HttpContext context, GardenService gardenService)
+    {
+        return TypedResults.Ok(await gardenService.GetAllAsync(true));
+    }
+
     private static async Task<IResult> GetItems(HttpContext context, GardenService gardenService, string? name)
     {
-        if (name is not null) 
-            return TypedResults.Ok(await gardenService.GetAllAsync(name));
-            
-        return TypedResults.Ok(await gardenService.GetAllAsync());
+        return name is not null ? TypedResults.Ok(await gardenService.GetAllAsync(name)) : TypedResults.Ok(await gardenService.GetAllAsync());
     }
+    
+    
 }

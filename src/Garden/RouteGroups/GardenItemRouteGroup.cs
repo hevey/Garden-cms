@@ -1,5 +1,5 @@
-using Garden.Models;
 using Garden.Services;
+using Garden.Shared.Models;
 using MongoDB.Bson;
 
 namespace Garden.RouteGroups;
