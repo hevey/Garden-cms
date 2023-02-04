@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Garden.Admin.Data;
+﻿using Blazored.Modal;
 using Garden.Admin.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
+builder.Services.AddBlazoredModal();
 
 builder.Services.AddScoped<TokenService>();
 

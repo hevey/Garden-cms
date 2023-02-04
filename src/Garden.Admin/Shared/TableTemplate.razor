@@ -1,7 +1,7 @@
 @typeparam TItem
 @using System.Diagnostics.CodeAnalysis
 
-<table class="table-fixed w-full">
+<table class="@Css table-fixed w-full">
     <thead>
         <tr>@TableHeader</tr>
     </thead>
@@ -17,6 +17,10 @@
 </table>
 
 @code {
+
+    [Parameter]
+    public string Css { get; set; } = string.Empty;
+
     [Parameter]
     public RenderFragment? TableHeader { get; set; }
 

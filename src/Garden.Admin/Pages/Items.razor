@@ -12,24 +12,39 @@
 <div class="max-w-5xl mx-auto">
   <h3 class="text-4xl">Items</h3>
   
+  <button class="nav-btn-primary" @onclick="@(() => Modal.Show<ItemModal>("Item Type"))">Add Item Type</button>
+  
   <TableTemplate Items="_items" Context="item">
     <TableHeader>
       <th>Name</th>
       <th>Version</th>
+      <th>Edit</th>
+      <th>Delete</th>
     </TableHeader>
     <RowTemplate>
       <td>@item.Name</td>
       <td>@item.Version</td>
+      <td><button @onclick="() => EditModal(item)">edit</button></td>
+      <td><button @onclick="() => DeleteItem(item.Id!)">Delete</button></td>
     </RowTemplate>
   </TableTemplate>
 </div>
 
 @code {
   private List<Item> _items = new();
+
+  [CascadingParameter]
+  public IModalService Modal { get; set; } = default!;
   
   protected override async Task<Task> OnInitializedAsync()
   {
+    await GetItems();
 
+    return base.OnInitializedAsync();
+  }
+
+  private async Task GetItems()
+  {
     try
     {
       var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7161/garden/items/latest");
@@ -46,19 +61,42 @@
         throw new HttpRequestException();
 
       if (content != null)
-        _items = content;
-
+      {
+        var orderedEnumerable = content.OrderBy(i => i.Name);
+        _items = orderedEnumerable.ToList();  
+      }
+      
     }
     catch (AuthenticationException e)
     {
-      // TODO: handle authentication exception
+  // TODO: handle authentication exception
     }
     catch (HttpRequestException e)
     {
-      // TODO: handle other errors.
+  // TODO: handle other errors.
     }
+  }
+
+  private void EditModal(Item item)
+  {
+    var parameters = new ModalParameters().Add(nameof(ItemModal.Item), item);
+    Modal.Show<ItemModal>("Item Type", parameters);
+  }
+
+  private async Task DeleteItem(string id)
+  {
+    var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7161/garden/item/{id}");
+    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await TokenService.GetToken());
+
+    var client = HttpClientFactory.CreateClient();
+    var response = await client.SendAsync(request);
+
+    if (response.IsSuccessStatusCode)
+      await GetItems();
     
-    return base.OnInitializedAsync();
+  // if (!response.IsSuccessStatusCode)
+  //TODO: Show Error when delete fails
+
   }
 
 }

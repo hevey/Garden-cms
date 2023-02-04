@@ -1,0 +1,36 @@
+@using Garden.Shared.Models
+
+<EditForm Model="@Item">
+    @* <DataAnnotationsValidator /> *@
+    <div class="grid grid-rows-3 h-full">
+        <InputText class="form-input row-start-1" type="text" placeholder="Name" @bind-Value="Item.Name"/>
+        <h3 class="font-bold row-start-2">Node</h3>
+        <TableTemplate Css="row-start-3" Items="@Item.Nodes" Context="node">
+            <TableHeader>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Value</th>
+            </TableHeader>
+            <RowTemplate>
+                <td>@node.Name</td>
+                <td>@node.Type</td>
+                <td>@node.Value</td>
+            </RowTemplate>
+        </TableTemplate>
+        
+        @* <ValidationSummary class="w-11/12 text-red-500 row-start-5 px-5 mx-auto text-base h-1"></ValidationSummary> *@
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Item Item { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        Item.Nodes ??= new List<Node>();
+
+        base.OnInitialized();
+    }
+
+}

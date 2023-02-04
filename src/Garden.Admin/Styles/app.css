@@ -6,6 +6,10 @@
     .nav-btn-primary {
         @apply font-medium px-4 py-3 my-3 text-teal-400 rounded-lg hover:bg-teal-100 hover:text-teal-900;
     }
+    
+    .form-input {
+        @apply w-11/12 row-start-2 h-12 rounded-md border border-[#E9EDF4] px-5 mx-auto text-base placeholder-[#ACB6BE] outline-none focus-visible:shadow-none focus:border-blue-500;
+    }
 }
 
 *:focus {
