@@ -10,8 +10,12 @@
         {
             if (RowTemplate is not null)
             {
-                <tr>@RowTemplate(item)</tr>
+                <tr class="text-center border-2">@RowTemplate(item)</tr>
             }
+        }
+        @if (ShowLastRow)
+        {
+            <tr class="text-center border-2">@LastRow</tr>
         }
     </tbody>
 </table>
@@ -22,10 +26,16 @@
     public string Css { get; set; } = string.Empty;
 
     [Parameter]
+    public bool ShowLastRow { get; set; }
+
+    [Parameter]
     public RenderFragment? TableHeader { get; set; }
 
     [Parameter]
     public RenderFragment<TItem>? RowTemplate { get; set; }
+    
+    [Parameter]
+    public RenderFragment? LastRow { get; set; }
 
     [Parameter, AllowNull]
     public IReadOnlyList<TItem> Items { get; set; }

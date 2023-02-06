@@ -12,7 +12,7 @@
 <div class="max-w-5xl mx-auto">
   <h3 class="text-4xl">Items</h3>
   
-  <button class="nav-btn-primary" @onclick="@(() => Modal.Show<ItemModal>("Item Type"))">Add Item Type</button>
+  <button class="nav-btn-primary" @onclick="NewItemModal">Add Item Type</button>
   
   <TableTemplate Items="_items" Context="item">
     <TableHeader>
@@ -75,6 +75,13 @@
     {
   // TODO: handle other errors.
     }
+  }
+
+  private void NewItemModal()
+  {
+    IModalReference? modalReference = null;
+    var parameters = new ModalParameters().Add(nameof(ItemModal.Modal), modalReference);
+    modalReference = Modal.Show<ItemModal>("Item Type", parameters);
   }
 
   private void EditModal(Item item)
