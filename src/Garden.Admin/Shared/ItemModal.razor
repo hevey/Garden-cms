@@ -54,8 +54,8 @@
     [Parameter]
     public Item? Item { get; set; }
     
-    [Parameter]
-    public IModalReference? Modal { get; set; }
+    [CascadingParameter] 
+    BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
     private string _hiddenCss = "hidden";
     private bool _editMode;
@@ -112,8 +112,9 @@
 
             if (!response.IsSuccessStatusCode)
                 throw new HttpRequestException();
-
-            Modal?.Close();
+            
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
+            
         }
         catch (HttpRequestException e)
         {
@@ -121,9 +122,10 @@
         }
     }
 
-    private void CancelItem()
+    private async Task CancelItem()
     {
         Item = new Item();
-        Modal?.Close();
+
+        await BlazoredModal.CancelAsync();
     }
 }

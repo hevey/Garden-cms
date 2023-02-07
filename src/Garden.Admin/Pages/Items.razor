@@ -35,15 +35,15 @@
 
   [CascadingParameter]
   public IModalService Modal { get; set; } = default!;
-  
+
   protected override async Task<Task> OnInitializedAsync()
   {
-    await GetItems();
+    await GetItemsAsync();
 
     return base.OnInitializedAsync();
   }
 
-  private async Task GetItems()
+  private async Task GetItemsAsync()
   {
     try
     {
@@ -77,17 +77,30 @@
     }
   }
 
-  private void NewItemModal()
+  private async Task NewItemModal()
   {
-    IModalReference? modalReference = null;
-    var parameters = new ModalParameters().Add(nameof(ItemModal.Modal), modalReference);
-    modalReference = Modal.Show<ItemModal>("Item Type", parameters);
+    var itemModal = Modal.Show<ItemModal>("Item Type");
+    var result = await itemModal.Result;
+
+    if (result.Confirmed)
+    {
+      await GetItemsAsync();
+    }
+    
   }
 
-  private void EditModal(Item item)
+  private async Task EditModal(Item item)
   {
-    var parameters = new ModalParameters().Add(nameof(ItemModal.Item), item);
-    Modal.Show<ItemModal>("Item Type", parameters);
+    var parameters = new ModalParameters()
+      .Add(nameof(ItemModal.Item), item);
+
+    var itemModal = Modal.Show<ItemModal>("Item Type", parameters);
+    var result = await itemModal.Result;
+
+    if (result.Confirmed)
+    {
+      await GetItemsAsync();
+    }
   }
 
   private async Task DeleteItem(string id)
@@ -99,11 +112,10 @@
     var response = await client.SendAsync(request);
 
     if (response.IsSuccessStatusCode)
-      await GetItems();
+      await GetItemsAsync();
     
   // if (!response.IsSuccessStatusCode)
   //TODO: Show Error when delete fails
 
   }
-
 }
