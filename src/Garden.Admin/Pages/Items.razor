@@ -38,6 +38,8 @@
 
   protected override async Task<Task> OnInitializedAsync()
   {
+    await TokenService.CheckAuthentication();
+    
     await GetItemsAsync();
 
     return base.OnInitializedAsync();

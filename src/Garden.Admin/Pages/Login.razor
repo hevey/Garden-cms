@@ -1,5 +1,6 @@
 @page "/login"
 @using Garden.Shared.Models
+@using System.Security.Authentication
 
 @inject TokenService TokenService
 @inject NavigationManager NavigationManager
@@ -30,9 +31,13 @@
 
     protected override async Task<Task> OnInitializedAsync()
     {
-        var loggedIn = await TokenService.CheckTokenAsync();
-        if(loggedIn) NavigationManager.NavigateTo("/");
-        
+        try
+        {
+            var loggedIn = await TokenService.CheckTokenAsync();
+            if(loggedIn) NavigationManager.NavigateTo("/");
+        }
+        catch (AuthenticationException e) {}
+
         return base.OnInitializedAsync();
     }
 

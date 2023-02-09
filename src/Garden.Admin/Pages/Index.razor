@@ -1,6 +1,5 @@
 ﻿@page "/"
 
-@inject NavigationManager Navigation
 @inject TokenService TokenService
 
 <PageTitle>Garden - Home</PageTitle>
@@ -12,16 +11,10 @@
 </div>
 
 @code {
-
-    private void Logout()
-    {
-        Navigation.NavigateTo("/logout");
-    }
-
+    
     protected override async Task<Task> OnInitializedAsync()
     {
-        var tokenCheck = await TokenService.CheckTokenAsync();
-        if(!tokenCheck) Navigation.NavigateTo("/login", true);
+        await TokenService.CheckAuthentication();
         return base.OnInitializedAsync();
     }
 
