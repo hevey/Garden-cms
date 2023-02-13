@@ -16,7 +16,7 @@ public class GardenService
         var mongoClient = new MongoClient(gardenStore.ConnectionString);
         _mongoDatabase = mongoClient.GetDatabase(gardenStore.DatabaseName);
 
-        _itemCollection = _mongoDatabase.GetCollection<Item>(gardenStore.CollectionName);
+        _itemCollection = _mongoDatabase.GetCollection<Item>(gardenStore.ItemCollection);
     }
 
     public async Task<List<Item>> GetAllAsync() => await _itemCollection.Find(_ => true).ToListAsync();

@@ -31,7 +31,7 @@ public static class GardenItemRouteGroup
             if (result is null)
                 return TypedResults.BadRequest($"no item with id: {id} found");
             
-            return TypedResults.Ok(await gardenService.GetByIdAsync(id));
+            return TypedResults.Ok(result);
         }
 
         if (name is not null)

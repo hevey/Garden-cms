@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<MongoStoreDatabaseSettings>("GardenStore", builder.Configuration.GetSection("GardenStoreDatabase"));
 builder.Services.AddScoped<GardenService>();
+builder.Services.AddScoped<ContentService>();
 
 builder.Services.AddSingleton<TokenService>();
 
@@ -94,6 +95,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGroup("/garden").MapGardenRoutes().WithOpenApi();
+app.MapGroup("/content").MapContentRoutes().WithOpenApi();
 
 app.UseStaticFiles();
 app.MapFallbackToFile("index.html");

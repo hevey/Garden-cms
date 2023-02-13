@@ -6,5 +6,7 @@ public class MongoStoreDatabaseSettings
 
     public string DatabaseName { get; set; }
 
-    public string CollectionName { get; set; }
+    public string ItemCollection { get; set; }
+
+    public string ContentCollection { get; set; }
 }

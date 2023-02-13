@@ -1,9 +1,6 @@
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Text;
 using Garden.Services;
 using Garden.Shared.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
 namespace Garden.RouteGroups;
@@ -20,7 +17,7 @@ public static class GardenIdentityRouteGroup
         return group;
     }
 
-    private static async Task<IResult> ValidateToken(TokenService tokenService, TokenDTO tokenDto)
+    private static IResult ValidateToken(TokenService tokenService, TokenDTO tokenDto)
     {
         if (!tokenService.Validate(tokenDto.Token))
             return TypedResults.BadRequest("token is not valid");
