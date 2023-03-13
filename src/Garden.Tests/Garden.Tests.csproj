@@ -24,6 +24,11 @@
 
     <ItemGroup>
       <Folder Include="Content" />
+      <Folder Include="Items" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Garden.Shared\Garden.Shared.csproj" />
     </ItemGroup>
 
 </Project>
