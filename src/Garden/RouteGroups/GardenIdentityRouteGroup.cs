@@ -25,7 +25,7 @@ public static class GardenIdentityRouteGroup
         return TypedResults.Ok();
     }
 
-    private static async Task<IResult> SignIn(UserManager<ApplicationUser> userManager, GardenService gardenService,
+    private static async Task<IResult> SignIn(UserManager<ApplicationUser> userManager, IGardenService gardenService,
         TokenService tokenService, User user)
     {
 
@@ -48,7 +48,7 @@ public static class GardenIdentityRouteGroup
         return TypedResults.Ok(token);
     }
     
-    private static async Task<IResult> PostIdentity(UserManager<ApplicationUser> userManager, GardenService gardenService, User user)
+    private static async Task<IResult> PostIdentity(UserManager<ApplicationUser> userManager, IGardenService gardenService, User user)
     {
         ApplicationUser applicationUser = new ApplicationUser
         {

@@ -12,12 +12,12 @@ public static class GardenItemsRouteGroup
         return group;
     }
 
-    private static async Task<IResult> GetLatestItems(HttpContext context, GardenService gardenService)
+    private static async Task<IResult> GetLatestItems(HttpContext context, IGardenService gardenService)
     {
         return TypedResults.Ok(await gardenService.GetAllAsync(true));
     }
 
-    private static async Task<IResult> GetItems(HttpContext context, GardenService gardenService, string? name)
+    private static async Task<IResult> GetItems(HttpContext context, IGardenService gardenService, string? name)
     {
         return name is not null ? TypedResults.Ok(await gardenService.GetAllAsync(name)) : TypedResults.Ok(await gardenService.GetAllAsync());
     }

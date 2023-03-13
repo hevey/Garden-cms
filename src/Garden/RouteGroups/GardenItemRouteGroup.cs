@@ -17,7 +17,7 @@ public static class GardenItemRouteGroup
         return group;
     }
 
-    private static async Task<IResult> GetItem(HttpContext context, GardenService gardenService, string? id, string? name)
+    private static async Task<IResult> GetItem(HttpContext context, IGardenService gardenService, string? id, string? name)
     {
         if (id is not null)
         {
@@ -47,7 +47,7 @@ public static class GardenItemRouteGroup
         return Results.BadRequest("Unable to return item. Provide either an 'id' or 'name' parameter");
     }
     
-    private static async Task<IResult> PostItem(GardenService gardenService, Item item)
+    private static async Task<IResult> PostItem(IGardenService gardenService, Item item)
     {
         item.Version = 1;
         
@@ -55,7 +55,7 @@ public static class GardenItemRouteGroup
         return TypedResults.Created($"/{item.Id}", item);
     }
     
-    private static async Task<IResult> PutItem(GardenService gardenService, string id, Item item)
+    private static async Task<IResult> PutItem(IGardenService gardenService, string id, Item item)
     {
 
         var isIdValid = ObjectId.TryParse(id, out _);
@@ -77,7 +77,7 @@ public static class GardenItemRouteGroup
         return TypedResults.NoContent();
     }
     
-    private static async Task<IResult> DeleteItem(GardenService gardenService, string id)
+    private static async Task<IResult> DeleteItem(IGardenService gardenService, string id)
     {
         var isIdValid = ObjectId.TryParse(id, out _);
 

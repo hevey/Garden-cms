@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden.Shared", "Garden.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden.Admin", "Garden.Admin\Garden.Admin.csproj", "{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Garden.Tests", "Garden.Tests\Garden.Tests.csproj", "{52388BA5-DDFE-4CC5-AA21-5BD4EC306639}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,5 +27,9 @@ Global
 		{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07187DEC-18E3-4AB9-8B16-6F56935DF6EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52388BA5-DDFE-4CC5-AA21-5BD4EC306639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52388BA5-DDFE-4CC5-AA21-5BD4EC306639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52388BA5-DDFE-4CC5-AA21-5BD4EC306639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52388BA5-DDFE-4CC5-AA21-5BD4EC306639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

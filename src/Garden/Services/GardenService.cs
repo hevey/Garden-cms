@@ -5,21 +5,21 @@ using MongoDB.Driver;
 
 namespace Garden.Services;
 
-public class GardenService
+public class GardenService : IGardenService
 {
     private readonly IMongoCollection<Item> _itemCollection;
-    private IMongoDatabase _mongoDatabase;
-    
+
     public GardenService(IOptionsSnapshot<MongoStoreDatabaseSettings> options)
     {
-        var gardenStore = options.Get("GardenStore");
-        var mongoClient = new MongoClient(gardenStore.ConnectionString);
-        _mongoDatabase = mongoClient.GetDatabase(gardenStore.DatabaseName);
+        MongoStoreDatabaseSettings gardenStore = options.Get("GardenStore");
+        MongoClient mongoClient = new(gardenStore.ConnectionString);
+        IMongoDatabase mongoDatabase = mongoClient.GetDatabase(gardenStore.DatabaseName);
 
-        _itemCollection = _mongoDatabase.GetCollection<Item>(gardenStore.ItemCollection);
+        _itemCollection = mongoDatabase.GetCollection<Item>(gardenStore.ItemCollection);
     }
 
     public async Task<List<Item>> GetAllAsync() => await _itemCollection.Find(_ => true).ToListAsync();
+    
     public async Task<List<Item>> GetAllAsync(string name) => await _itemCollection.Find(x => x.Name == name).ToListAsync();
     
     public async Task<List<Item>> GetAllAsync(bool latest)

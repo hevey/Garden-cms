@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<MongoStoreDatabaseSettings>("GardenStore", builder.Configuration.GetSection("GardenStoreDatabase"));
-builder.Services.AddScoped<GardenService>();
+builder.Services.AddScoped<IGardenService, GardenService>();
 builder.Services.AddScoped<ContentService>();
 
 builder.Services.AddSingleton<TokenService>();
