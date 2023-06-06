@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-    .nav-btn-primary {
-        @apply font-medium px-4 py-3 my-3 text-teal-400 rounded-lg hover:bg-teal-100 hover:text-teal-900;
-    }
-}
